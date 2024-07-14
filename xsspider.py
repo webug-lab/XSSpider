@@ -6,7 +6,7 @@ from core.colors import end, red, white, bad, info
 
 # Just a fancy ass banner
 print('''%s
-\tXSSpider %sv0.1
+XSSpider v0.1 // webug
 %s''' % (red, white, end))
 
 try:
