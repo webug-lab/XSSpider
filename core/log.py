@@ -5,7 +5,7 @@ __all__ = ['setup_logger', 'console_log_level', 'file_log_level', 'log_file']
 
 console_log_level = 'INFO'
 file_log_level = None
-log_file = 'xsstrike.log'
+log_file = 'xsspider.log'
 
 """
 Default Logging Levels
@@ -155,7 +155,7 @@ def log_debug_json(self, msg='', data={}):
             self.debug('{} {}'.format(msg, data))
 
 
-def setup_logger(name='xsstrike'):
+def setup_logger(name='xsspider'):
     from types import MethodType
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)

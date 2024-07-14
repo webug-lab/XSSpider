@@ -48,7 +48,7 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
     logger.debug_json('Scan parameters:', params)
     if not params:
         logger.error('No parameters to test.')
-        quit()
+        quitline()
     WAF = wafDetector(
         url, {list(params.keys())[0]: xsschecker}, headers, GET, delay, timeout)
     if WAF:
@@ -111,7 +111,7 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
                         choice = input(
                             '%s Would you like to continue scanning? [y/N] ' % que).lower()
                         if choice != 'y':
-                            quit()
+                            quitline()
                 elif bestEfficiency > minEfficiency:
                     logger.red_line()
                     logger.good('Payload: %s' % loggerVector)

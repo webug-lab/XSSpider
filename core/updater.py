@@ -12,13 +12,13 @@ logger = setup_logger(__name__)
 def updater():
     logger.run('Checking for updates')
     latestCommit = get(
-        'https://raw.githubusercontent.com/s0md3v/XSStrike/master/core/config.py').text
+        'https://raw.githubusercontent.com/webug-lab/XSSpider/master/core/config.py').text
 
     if changes not in latestCommit:  # just a hack to see if a new version is available
         changelog = re.search(r"changes = '''(.*?)'''", latestCommit)
         changelog = changelog.group(1).split(
             ';')  # splitting the changes to form a list
-        logger.good('A new version of XSStrike is available.')
+        logger.good('A new version of XSSpider is available.')
         changes_str = 'Changes:\n'
         for change in changelog:  # prepare changes to print
             changes_str += '%s>%s %s\n' % (green, end, change)
@@ -29,11 +29,11 @@ def updater():
         choice = input('%s Would you like to update? [Y/n] ' % que).lower()
 
         if choice != 'n':
-            logger.run('Updating XSStrike')
+            logger.run('Updating XSSpider')
             os.system(
-                'git clone --quiet https://github.com/s0md3v/XSStrike %s' % (folder))
+                'git clone --quiet https://github.com/webug-lab/XSSpider %s' % (folder))
             os.system('cp -r %s/%s/* %s && rm -r %s/%s/ 2>/dev/null' %
                       (path, folder, path, path, folder))
             logger.good('Update successful!')
     else:
-        logger.good('XSStrike is up to date!')
+        logger.good('XSSpider is up to date!')

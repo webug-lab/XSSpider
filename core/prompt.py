@@ -26,7 +26,7 @@ def prompt(default=None):
                 logger.error('You don\'t have either a default $EDITOR \
 value defined nor \'nano\' text editor')
                 logger.info('Execute %s`export EDITOR=/pat/to/your/editor` \
-%sthen run XSStrike again.\n\n' % (yellow,white))
+%sthen run XSSpider again.\n\n' % (yellow,white))
                 exit(1)
         else:
             os.waitpid(child_pid, 0)  # wait till the editor gets closed

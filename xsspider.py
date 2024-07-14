@@ -2,11 +2,19 @@
 
 from __future__ import print_function
 
-from core.colors import end, red, white, bad, info
+from core.colors import bad, info
+
+import builtins
 
 print('\n----------------------')
 print('XSSpider v0.1 // webug')
 print('----------------------')
+
+def quitline():
+    print('\nSpider is sleeping...\n')
+    sys.exit(0)
+
+setattr(builtins, 'quitline', quitline)
 
 try:
     import concurrent.futures
@@ -15,16 +23,16 @@ try:
         import fuzzywuzzy
     except ImportError:
         import os
-        print ('%s fuzzywuzzy isn\'t installed, installing now.' % info)
+        print('%s fuzzywuzzy isn\'t installed, installing now.' % info)
         ret_code = os.system('pip3 install fuzzywuzzy')
         if(ret_code != 0):
             print('%s fuzzywuzzy installation failed.' % bad)
-            quit()
-        print ('%s fuzzywuzzy has been installed, restart XSStrike.' % info)
-        quit()
+            quitline()
+        print('%s fuzzywuzzy has been installed, restart XSSpider.' % info)
+        quitline()
 except ImportError:  # throws error in python2
-    print('%s XSStrike isn\'t compatible with python2.\n Use python > 3.4 to run XSStrike.' % bad)
-    quit()
+    print('%s XSSpider isn\'t compatible with python2.\n Use python > 3.4 to run XSSpider.' % bad)
+    quitline()
 
 # Let's import whatever we need from standard lib
 import sys
@@ -158,11 +166,11 @@ if not proxy:
 
 if update:  # if the user has supplied --update argument
     updater()
-    quit()  # quitting because files have been changed
+    quitline()  # quitting because files have been changed
 
 if not target and not args_seeds:  # if the user hasn't supplied a url
     logger.no_format('\n' + parser.format_help().lower())
-    quit()
+    quitline()
 
 if fuzz:
     singleFuzz(target, paramData, encoding, headers, delay, timeout)

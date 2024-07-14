@@ -28,7 +28,7 @@ Do you know what could be causing the problem or how to fix it?
 **Some Questions**
 <!-- check the boxes with "x" like [x] -->
 
-- [ ] I am using the latest version of XSStrike.
+- [ ] I am using the latest version of XSSpider.
 - [ ] I installed the dependecies using `pip3` instead of `pip`
 - [ ] I have read the documentation before submitting this issue.
 - [ ] I have checked the other issues to see if someone reported this before.
