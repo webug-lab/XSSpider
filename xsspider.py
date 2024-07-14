@@ -4,10 +4,9 @@ from __future__ import print_function
 
 from core.colors import end, red, white, bad, info
 
-# Just a fancy ass banner
-print('''%s
-XSSpider v0.1 // webug
-%s''' % (red, white, end))
+print('\n----------------------')
+print('XSSpider v0.1 // webug')
+print('----------------------')
 
 try:
     import concurrent.futures
