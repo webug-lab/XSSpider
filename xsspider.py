@@ -8,10 +8,10 @@ import builtins
 
 print('\n----------------------')
 print('XSSpider v0.1 // webug')
-print('----------------------')
+print('----------------------\n\n:wake')
 
 def quitline():
-    print('\nSpider is sleeping...\n')
+    print('\n:sleep\n')
     sys.exit(0)
 
 setattr(builtins, 'quitline', quitline)
@@ -169,7 +169,8 @@ if update:  # if the user has supplied --update argument
     quitline()  # quitting because files have been changed
 
 if not target and not args_seeds:  # if the user hasn't supplied a url
-    logger.no_format('\n' + parser.format_help().lower())
+    # logger.no_format('\n' + parser.format_help().lower())
+    print('\n<< Spider need a target to crawl. >>')
     quitline()
 
 if fuzz:
