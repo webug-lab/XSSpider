@@ -30,7 +30,7 @@ try:
         webug.quitline()
 except ImportError:  # throws error in python2
     print('%s XSSpider isn\'t compatible with python2.\n Use python > 3.4 to run XSSpider.' % bad)
-    quitline()
+    webug.quitline()
 
 # Let's import whatever we need from standard lib
 import sys
@@ -164,12 +164,12 @@ if not proxy:
 
 if update:  # if the user has supplied --update argument
     updater()
-    quitline()  # quitting because files have been changed
+    webug.quitline()  # quitting because files have been changed
 
 if not target and not args_seeds:  # if the user hasn't supplied a url
     # logger.no_format('\n' + parser.format_help().lower())
     print('\n<< Spider need a target to crawl. >>')
-    quitline()
+    webug.quitline()
 
 if fuzz:
     singleFuzz(target, paramData, encoding, headers, delay, timeout)

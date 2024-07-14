@@ -5,6 +5,7 @@ from core.colors import good, green, end
 from core.requester import requester
 from core.utils import getUrl, getParams
 from core.log import setup_logger
+from plugins import webug
 
 logger = setup_logger(__name__)
 
@@ -19,7 +20,7 @@ def bruteforcer(target, paramData, payloadList, encoding, headers, delay, timeou
     logger.debug_json('Bruteforcer params:', params)
     if not params:
         logger.error('No parameters to test.')
-        quitline()
+        webug.quitline()
     for paramName in params.keys():
         progress = 1
         paramsCopy = copy.deepcopy(params)

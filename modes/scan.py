@@ -14,6 +14,7 @@ from core.requester import requester
 from core.utils import getUrl, getParams, getVar
 from core.wafDetector import wafDetector
 from core.log import setup_logger
+from plugins import webug
 
 logger = setup_logger(__name__)
 
@@ -48,7 +49,7 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
     logger.debug_json('Scan parameters:', params)
     if not params:
         logger.error('No parameters to test.')
-        quitline()
+        webug.quitline()
     WAF = wafDetector(
         url, {list(params.keys())[0]: xsschecker}, headers, GET, delay, timeout)
     if WAF:
@@ -111,7 +112,7 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
                         choice = input(
                             '%s Would you like to continue scanning? [y/N] ' % que).lower()
                         if choice != 'y':
-                            quitline()
+                            webug.quitline()
                 elif bestEfficiency > minEfficiency:
                     logger.red_line()
                     logger.good('Payload: %s' % loggerVector)
