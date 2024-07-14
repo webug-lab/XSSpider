@@ -4,17 +4,15 @@ from __future__ import print_function
 
 from core.colors import bad, info
 
+from plugins import webug
+
 import builtins
 
 print('\n----------------------')
 print('XSSpider v0.1 // webug')
 print('----------------------\n\n:wake')
 
-def quitline():
-    print('\n:sleep\n')
-    sys.exit(0)
-
-setattr(builtins, 'quitline', quitline)
+setattr(builtins, 'quitline', webug.quitline)
 
 try:
     import concurrent.futures
@@ -27,9 +25,9 @@ try:
         ret_code = os.system('pip3 install fuzzywuzzy')
         if(ret_code != 0):
             print('%s fuzzywuzzy installation failed.' % bad)
-            quitline()
+            webug.quitline()
         print('%s fuzzywuzzy has been installed, restart XSSpider.' % info)
-        quitline()
+        webug.quitline()
 except ImportError:  # throws error in python2
     print('%s XSSpider isn\'t compatible with python2.\n Use python > 3.4 to run XSSpider.' % bad)
     quitline()

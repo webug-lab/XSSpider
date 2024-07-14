@@ -8,6 +8,7 @@ from core.requester import requester
 from core.utils import getUrl, getParams
 from core.wafDetector import wafDetector
 from core.log import setup_logger
+from plugins import webug
 
 logger = setup_logger(__name__)
 
@@ -31,7 +32,7 @@ def singleFuzz(target, paramData, encoding, headers, delay, timeout):
     logger.debug_json('Single fuzz params:', params)
     if not params:
         logger.error('No parameters to test.')
-        quitline()
+        webug.quitline()
     WAF = wafDetector(
         url, {list(params.keys())[0]: xsschecker}, headers, GET, delay, timeout)
     if WAF:
