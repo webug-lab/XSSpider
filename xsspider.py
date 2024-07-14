@@ -3,9 +3,7 @@
 from __future__ import print_function
 import builtins
 import concurrent.futures
-import json
 import os
-import sys
 import argparse
 from urllib.parse import urlparse
 
