@@ -120,7 +120,6 @@ def main():
     encoding = base64 if args.encode and args.encode == 'base64' else False
 
     if not args.proxy:
-        webug.crawl_and_identify_xss('https://' + args.target)
         core.config.proxies = {}
 
     if args.update:
@@ -136,7 +135,8 @@ def main():
     elif not args.recursive and not args.args_seeds:
         if args.args_file:
             bruteforcer(args.target, args.paramData, payloadList, encoding, headers, args.delay, args.timeout)
-       # else:
+        else:
+            webug.crawl_and_identify_xss('https://' + args.target)
             # scan(args.target, args.paramData, encoding, headers, args.delay, args.timeout, args.skipDOM, args.skip)
     else:
         if args.target:
