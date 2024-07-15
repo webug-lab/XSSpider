@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 
 from core.colors import bad, info
 from core.config import (
-    blindPayload, globalVariables, payloads, proxies, threadCount, delay, timeout
+    blindPayload, globalVariables, payloads, threadCount, delay, timeout
 )
 from core.encoders import base64
 from core.log import setup_logger, console_log_level, file_log_level, log_file, log_config
@@ -22,6 +22,8 @@ from modes.crawl import crawl
 from modes.scan import scan
 from modes.singleFuzz import singleFuzz
 from plugins import webug
+
+import core.config
 
 import pyfiglet
 from termcolor import colored
@@ -94,6 +96,9 @@ def main():
     check_python_version()
 
     args = parse_arguments()
+
+    core.log.file_log_level = args.file_log_level
+    
     logger = setup_logger()
 
     globalVariables.update(vars(args))
@@ -115,7 +120,8 @@ def main():
     encoding = base64 if args.encode and args.encode == 'base64' else False
 
     if not args.proxy:
-        globalVariables['proxies'] = {}
+        webug.crawl_and_identify_xss('https://' + args.target)
+        core.config.proxies = {}
 
     if args.update:
         updater()
