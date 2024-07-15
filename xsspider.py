@@ -136,8 +136,8 @@ def main():
     elif not args.recursive and not args.args_seeds:
         if args.args_file:
             bruteforcer(args.target, args.paramData, payloadList, encoding, headers, args.delay, args.timeout)
-        else:
-            scan(args.target, args.paramData, encoding, headers, args.delay, args.timeout, args.skipDOM, args.skip)
+       # else:
+            # scan(args.target, args.paramData, encoding, headers, args.delay, args.timeout, args.skipDOM, args.skip)
     else:
         if args.target:
             seedList.append(args.target)
