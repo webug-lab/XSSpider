@@ -1,5 +1,7 @@
 # XSSpider version 0.1
 
+![XSSpider](images/xsspider.jpg)
+
 A little spider who likes XSS.
 
 This repository is inspired by XSStrike.
