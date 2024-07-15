@@ -23,8 +23,16 @@ from modes.scan import scan
 from modes.singleFuzz import singleFuzz
 from plugins import webug
 
+import pyfiglet
+from termcolor import colored
+
+def print_logo():
+    ascii_art = pyfiglet.figlet_format("XSSpider", font="poison")
+    colored_ascii = colored(ascii_art, 'magenta')
+    print(colored_ascii)
+
 VERSION = "0.1"
-HEADER = '\n----------------------\nXSSpider v{} // webug\n----------------------\n\n:wake'.format(VERSION)
+HEADER = '----------------------\nXSSpider v{} // webug\n----------------------\n\n:wake'.format(VERSION)
 
 def install_fuzzywuzzy():
     print(f'{info} fuzzywuzzy isn\'t installed, installing now.')
@@ -80,6 +88,7 @@ def setup_headers(args):
         return headers
 
 def main():
+    print_logo()
     print(HEADER)
     setattr(builtins, 'quitline', webug.quitline)
     check_python_version()
