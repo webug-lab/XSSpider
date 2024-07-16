@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 
 from __future__ import print_function
+
+import argparse
+import atexit
 import builtins
 import concurrent.futures
+import json
 import os
-import argparse
+import pyfiglet
+import core.config
 from urllib.parse import urlparse
-
 from core.colors import bad, info
 from core.config import (
     blindPayload, globalVariables, payloads, threadCount, delay, timeout
@@ -22,16 +26,31 @@ from modes.crawl import crawl
 from modes.scan import scan
 from modes.singleFuzz import singleFuzz
 from plugins import webug
-
-import core.config
-
-import pyfiglet
 from termcolor import colored
 
+
+status_file = 'status.json'
+
 def print_logo():
+    if os.path.exists(status_file):
+        with open(status_file, 'r') as file:
+            status = json.load(file)
+        if status.get('has_run', False):
+            return
+    else:
+        status = {}
     ascii_art = pyfiglet.figlet_format("XSSpider", font="poison")
     colored_ascii = colored(ascii_art, 'magenta')
     print(colored_ascii)
+    status['has_run'] = True
+    with open(status_file, 'w') as file:
+        json.dump(status, file)
+
+def clear_status_file():
+    status = {'has_run': False}
+    with open(status_file, 'w') as file:
+        json.dump(status, file)
+
 
 VERSION = "0.1"
 HEADER = '----------------------\nXSSpider v{} // webug\n----------------------\n\n:wake'.format(VERSION)
@@ -90,6 +109,7 @@ def setup_headers(args):
         return headers
 
 def main():
+    atexit.register(clear_status_file)
     print_logo()
     print(HEADER)
     setattr(builtins, 'quitline', webug.quitline)
