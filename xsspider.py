@@ -47,9 +47,10 @@ def print_logo():
         json.dump(status, file)
 
 def clear_status_file():
-    status = {'has_run': False}
-    with open(status_file, 'w') as file:
-        json.dump(status, file)
+    if os.path.exists(status_file):
+        os.remove(status_file)
+
+atexit.register(clear_status_file)
 
 
 VERSION = "0.1"
@@ -109,7 +110,7 @@ def setup_headers(args):
         return headers
 
 def main():
-    atexit.register(clear_status_file)
+    print_logo.has_run = False
     print_logo()
     print(HEADER)
     setattr(builtins, 'quitline', webug.quitline)
