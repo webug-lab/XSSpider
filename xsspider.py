@@ -1,8 +1,3 @@
-#!/usr/bin/env python3
-
-from __future__ import print_function
-
-import argparse
 import atexit
 import builtins
 import concurrent.futures
@@ -10,6 +5,7 @@ import json
 import os
 import pyfiglet
 import core.config
+import argparse
 from urllib.parse import urlparse
 from core.colors import bad, info
 from core.config import (
@@ -27,34 +23,34 @@ from modes.scan import scan
 from modes.singleFuzz import singleFuzz
 from plugins import webug
 from termcolor import colored
-
+from datetime import datetime, timedelta
 
 status_file = 'status.json'
+SHOW_LOGO_COMMAND = 'show-logo'
+LOGO_INTERVAL = timedelta(hours=1)
 
-def print_logo():
+def print_logo(force=False):
+    current_time = datetime.now()
     if os.path.exists(status_file):
         with open(status_file, 'r') as file:
             status = json.load(file)
-        if status.get('has_run', False):
+        last_shown = datetime.fromisoformat(status.get('last_shown', '1970-01-01T00:00:00'))
+        if not force and status.get('has_run', False) and current_time - last_shown < LOGO_INTERVAL:
             return
     else:
         status = {}
+
     ascii_art = pyfiglet.figlet_format("XSSpider", font="poison")
     colored_ascii = colored(ascii_art, 'magenta')
     print(colored_ascii)
     status['has_run'] = True
+    status['last_shown'] = current_time.isoformat()
     with open(status_file, 'w') as file:
         json.dump(status, file)
 
 def clear_status_file():
     if os.path.exists(status_file):
         os.remove(status_file)
-
-atexit.register(clear_status_file)
-
-
-VERSION = "0.1"
-HEADER = '----------------------\nXSSpider v{} // webug\n----------------------\n\n:wake'.format(VERSION)
 
 def install_fuzzywuzzy():
     print(f'{info} fuzzywuzzy isn\'t installed, installing now.')
@@ -98,6 +94,7 @@ def parse_arguments():
     parser.add_argument('--console-log-level', help='Console logging level', dest='console_log_level', default=console_log_level, choices=log_config.keys())
     parser.add_argument('--file-log-level', help='File logging level', dest='file_log_level', choices=log_config.keys(), default=None)
     parser.add_argument('--log-file', help='Name of the file to log', dest='log_file', default=log_file)
+    parser.add_argument('--command', help='Command to execute', dest='command')
     return parser.parse_args()
 
 def setup_headers(args):
@@ -111,46 +108,39 @@ def setup_headers(args):
 
 def main():
     print_logo.has_run = False
+    args = parse_arguments()
+    if args.command == SHOW_LOGO_COMMAND:
+        print_logo(force=True)
+        return
     print_logo()
     print(HEADER)
     setattr(builtins, 'quitline', webug.quitline)
     check_python_version()
-
-    args = parse_arguments()
-
     core.log.file_log_level = args.file_log_level
     
     logger = setup_logger()
-
     globalVariables.update(vars(args))
     headers = setup_headers(args)
-
     if args.path:
         args.paramData = converter(args.target, args.target)
     elif args.jsonData:
         headers['Content-type'] = 'application/json'
         args.paramData = converter(args.paramData)
-
     if args.args_file:
         payloadList = payloads if args.args_file == 'default' else list(filter(None, reader(args.args_file)))
     else:
         payloadList = []
-
     seedList = list(filter(None, reader(args.args_seeds))) if args.args_seeds else []
-
     encoding = base64 if args.encode and args.encode == 'base64' else False
-
     if not args.proxy:
         core.config.proxies = {}
-
     if args.update:
         updater()
         webug.quitline()
-
     if not args.target and not args.args_seeds:
-        print('\n<< Spider need a target to crawl. >>')
+        print('\nSpikey >> Need a target.')
+        print('\n[ Use -u or --seeds to specify the target. ]')
         webug.quitline()
-
     if args.fuzz:
         singleFuzz(args.target, args.paramData, encoding, headers, args.delay, args.timeout)
     elif not args.recursive and not args.args_seeds:
@@ -178,6 +168,11 @@ def main():
                 if i + 1 == len(forms) or (i + 1) % args.threadCount == 0:
                     logger.info('Progress: %i/%i\r' % (i + 1, len(forms)))
             logger.no_format('')
+
+atexit.register(clear_status_file)
+
+VERSION = "0.1"
+HEADER = '----------------------\nXSSpider v{} // webug\n----------------------\n\n:wake'.format(VERSION)
 
 if __name__ == "__main__":
     main()
