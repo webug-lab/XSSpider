@@ -65,7 +65,9 @@ def crawl_and_identify_xss(base_url):
         print("No vulnerable headers found.")
 
     # Check cookies for potential vulnerabilities
-    print("\nChecking cookies:")
+    print("\n-------------------")
+    print("\nChecking cookies //")
+    print("\n-------------------\n")
     cookies = check_cookies(base_url)
     if cookies:
         print(f" - Cookies that may be vulnerable: {cookies}")
@@ -75,9 +77,12 @@ def crawl_and_identify_xss(base_url):
     # Find all links on the page
     links = find_all_links(base_url)
     if links:
-        print("\nLinks found on the page:")
+        print("\n--------------------------")
+        print("\nLinks found on the page //")
+        print("\n--------------------------\n")
         for link in links:
-            print(f" - {link}")
+            print(f"{link}")
+        print("\n")    
     else:
         print("No links found.")
 

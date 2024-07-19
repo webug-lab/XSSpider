@@ -172,7 +172,7 @@ def main():
 atexit.register(clear_status_file)
 
 VERSION = "0.1"
-HEADER = '----------------------\nXSSpider v{} // webug\n----------------------\n\n:wake'.format(VERSION)
+HEADER = '-----------------------\nXSSpider v{} // Spikey\n-----------------------\n\n:wake'.format(VERSION)
 
 if __name__ == "__main__":
     main()
