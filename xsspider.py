@@ -1,4 +1,3 @@
-import atexit
 import builtins
 import concurrent.futures
 import json
@@ -181,10 +180,8 @@ def main():
                     logger.info('Progress: %i/%i\r' % (i + 1, len(forms)))
             logger.no_format('')
 
-atexit.register(clear_status_file)
-
 VERSION = "0.1"
-HEADER = '-----------------------\nXSSpider v{} // Spikey\n-----------------------\n\n:wake'.format(VERSION)
+HEADER = '\n-----------------------\nXSSpider v{} // Spikey\n-----------------------\n\n:wake'.format(VERSION)
 
 if __name__ == "__main__":
     main()
