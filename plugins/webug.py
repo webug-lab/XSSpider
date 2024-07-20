@@ -37,54 +37,64 @@ def check_cookies(url):
     return vulnerabilities
 
 def crawl_and_identify_xss(base_url):
-    print(f"Scanning URL: {base_url}")
+    print("\n:climb\n")
 
     # Extract forms and check inputs
     forms = extract_forms(base_url)
     if forms:
-        print("Forms found:")
+        print("--------------")
+        print("Forms found //")
+        print("--------------\n")
         for action, method, inputs in forms:
-            print(f" - Form action: {action}, method: {method}, inputs: {inputs}")
+            print(f"\tForm action: {action}, method: {method}, inputs: {inputs}\n")
     else:
-        print("No forms found.")
+        print("\tNo forms found.")
+    print()
 
     # Check URL parameters
-    print("\nChecking URL parameters:")
+    print("--------------------------")
+    print("Checking URL parameters //")
+    print("--------------------------\n")
     url_params = [param.split('=')[0] for param in base_url.split('?')[1:]]
     if url_params:
-        print(f" - URL parameters: {url_params}")
+        print(f"\tURL parameters: {url_params}")
     else:
-        print("No URL parameters found.")
+        print("\tNo URL parameters found.")
+    print()
 
     # Check headers for potential vulnerabilities
-    print("\nChecking headers:")
+    print("-------------------")
+    print("Checking headers //")
+    print("-------------------\n")
     headers = check_headers(base_url)
     if headers:
-        print(f" - Headers that may be vulnerable: {headers}")
+        print(f"\tHeaders that may be vulnerable: {headers}")
     else:
-        print("No vulnerable headers found.")
+        print("\tNo vulnerable headers found.")
+    print()
 
     # Check cookies for potential vulnerabilities
-    print("\n-------------------")
-    print("\nChecking cookies //")
-    print("\n-------------------\n")
+    print("-------------------")
+    print("Checking cookies //")
+    print("-------------------\n")
     cookies = check_cookies(base_url)
     if cookies:
-        print(f" - Cookies that may be vulnerable: {cookies}")
+        print(f"\tCookies that may be vulnerable: {cookies}")
     else:
-        print("No vulnerable cookies found.")
+        print("\tNo vulnerable cookies found.")
+    print()
 
     # Find all links on the page
     links = find_all_links(base_url)
     if links:
-        print("\n--------------------------")
-        print("\nLinks found on the page //")
-        print("\n--------------------------\n")
+        print("--------------------------")
+        print("Links found on the page //")
+        print("--------------------------\n")
         for link in links:
-            print(f"{link}")
-        print("\n")    
+            print(f"\t{link}") 
     else:
-        print("No links found.")
+        print("\tNo links found.")
+    print()
 
 def quitline():
     print('\n:sleep\n')
