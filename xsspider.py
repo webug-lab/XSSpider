@@ -94,8 +94,15 @@ def parse_arguments():
     parser.add_argument('--console-log-level', help='Console logging level', dest='console_log_level', default=console_log_level, choices=log_config.keys())
     parser.add_argument('--file-log-level', help='File logging level', dest='file_log_level', choices=log_config.keys(), default=None)
     parser.add_argument('--log-file', help='Name of the file to log', dest='log_file', default=log_file)
+    parser.add_argument('extra', nargs='*', help='Extra arguments to be treated as URL')
     parser.add_argument('--command', help='Command to execute', dest='command')
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    # If an extra argument is provided and target is not set, treat the extra argument as the target URL
+    if args.extra and not args.target:
+        args.target = args.extra[0]
+
+    return args
 
 def setup_headers(args):
     if isinstance(args.add_headers, bool):
@@ -109,9 +116,14 @@ def setup_headers(args):
 def main():
     print_logo.has_run = False
     args = parse_arguments()
-    if args.command == SHOW_LOGO_COMMAND:
+    if args.command and args.command == SHOW_LOGO_COMMAND:
         print_logo(force=True)
         return
+
+    # If no arguments are provided, prompt for URL
+    if not args.target:
+        args.target = input("\nEnter the target URL // ")
+
     print_logo()
     print(HEADER)
     setattr(builtins, 'quitline', webug.quitline)
