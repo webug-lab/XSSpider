@@ -180,7 +180,7 @@ def main():
                     logger.info('Progress: %i/%i\r' % (i + 1, len(forms)))
             logger.no_format('')
 
-VERSION = "0.1"
+VERSION = "0.2"
 HEADER = '\n-----------------------\nXSSpider v{} // Spikey\n-----------------------\n\n:wake'.format(VERSION)
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-# XSSpider version 0.1
+# XSSpider version 0.2
 
 ![XSSpider](images/xsspider.jpg)
 
