@@ -104,7 +104,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-#vscode
+# vscode
 .vscode/
 
+# webug
 .ds_store
+status.json
