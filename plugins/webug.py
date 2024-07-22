@@ -16,7 +16,7 @@ def extract_forms(url):
 def find_all_links(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    links = [a.get('href') for a in soup.find_all('a', href=True)]
+    links = [a.get('href') for a in soup.find_all('a', href=True) if a.get('href') not in ['#', '/']]
     return links
 
 def check_headers(url):
